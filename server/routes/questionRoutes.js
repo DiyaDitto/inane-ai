@@ -6,6 +6,7 @@ const router =
 
 const {
   getQuestions,
+  createQuestion,
 } = require(
   "../controllers/questionController"
 );
@@ -14,6 +15,9 @@ router.get(
   "/",
   getQuestions
 );
-
+router.post(
+  "/",
+  createQuestion
+);
 module.exports =
   router;

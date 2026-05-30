@@ -3,14 +3,34 @@ const Question =
 
 exports.getQuestions =
   async (req, res) => {
-
     try {
 
       const questions =
         await Question.find();
 
-      res.json(
-        questions
+      res.json(questions);
+
+    } catch (error) {
+
+      res.status(500).json({
+        message:
+          error.message,
+      });
+
+    }
+  };
+
+exports.createQuestion =
+  async (req, res) => {
+    try {
+
+      const question =
+        await Question.create(
+          req.body
+        );
+
+      res.status(201).json(
+        question
       );
 
     } catch (error) {
@@ -21,5 +41,4 @@ exports.getQuestions =
       });
 
     }
-
   };
