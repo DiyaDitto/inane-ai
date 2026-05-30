@@ -4,32 +4,47 @@ import {
   XAxis,
   YAxis,
   Tooltip,
+  CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  { week: "W1", score: 40 },
-  { week: "W2", score: 55 },
-  { week: "W3", score: 68 },
-  { week: "W4", score: 82 },
-];
+function PerformanceChart({ results }) {
+  const chartData = results
+    .slice()
+    .reverse()
+    .map((result, index) => ({
+      attempt: index + 1,
+      score: result.score,
+    }));
 
-function PerformanceChart() {
   return (
-    <ResponsiveContainer
-      width="100%"
-      height={300}
-    >
-      <LineChart data={data}>
-        <XAxis dataKey="week" />
-        <YAxis />
-        <Tooltip />
-        <Line
-          type="monotone"
-          dataKey="score"
-        />
-      </LineChart>
-    </ResponsiveContainer>
+    <div className="bg-slate-900 p-6 rounded-2xl mt-8">
+      <h2 className="text-2xl font-bold mb-6">
+        Performance Trend
+      </h2>
+
+      <ResponsiveContainer
+        width="100%"
+        height={300}
+      >
+        <LineChart data={chartData}>
+          <CartesianGrid strokeDasharray="3 3" />
+
+          <XAxis dataKey="attempt" />
+
+          <YAxis />
+
+          <Tooltip />
+
+          <Line
+            type="monotone"
+            dataKey="score"
+            stroke="#8b5cf6"
+            strokeWidth={3}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
 
