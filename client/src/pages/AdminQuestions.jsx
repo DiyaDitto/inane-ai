@@ -1,34 +1,19 @@
-import {
-  useEffect,
-  useState,
-} from "react";
-
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import AdminLayout from "../layouts/AdminLayout";
 import {
   getQuestions,
-  createQuestion,
+  deleteQuestion,
 } from "../services/questionService";
 
 function AdminQuestions() {
 
-  const [questions,
-    setQuestions] =
+  const [questions, setQuestions] =
     useState([]);
 
-  const [form,
-    setForm] =
-    useState({
-      question: "",
-      options: [
-        "",
-        "",
-        "",
-        "",
-      ],
-      answer: "",
-      subject: "",
-      difficulty:
-        "Easy",
-    });
+  useEffect(() => {
+    fetchQuestions();
+  }, []);
 
   const fetchQuestions =
     async () => {
@@ -37,255 +22,141 @@ function AdminQuestions() {
         const data =
           await getQuestions();
 
-        setQuestions(
-          data
-        );
+        setQuestions(data);
 
       } catch (error) {
 
-        console.log(
-          error
-        );
+        console.log(error);
 
       }
     };
 
-  useEffect(() => {
-    fetchQuestions();
-  }, []);
+  const handleDelete =
+    async (id) => {
 
-  const handleOptionChange =
-    (
-      index,
-      value
-    ) => {
+      const confirmDelete =
+        window.confirm(
+          "Are you sure you want to delete this question?"
+        );
 
-        const updated =
-            [
-                     ...form.options,
-      ];
-
-      updated[index] =
-        value;
-
-      setForm({
-        ...form,
-        options: updated,
-      });
-
-    };
-
-  const handleSubmit =
-    async (e) => {
-
-      e.preventDefault();
+      if (!confirmDelete)
+        return;
 
       try {
 
-        await createQuestion(
-          form
-        );
-
-        setForm({
-          question: "",
-          options: [
-            "",
-            "",
-            "",
-            "",
-          ],
-          answer: "",
-          subject: "",
-          difficulty:
-            "Easy",
-        });
+        await deleteQuestion(id);
 
         fetchQuestions();
 
-        alert(
-          "Question Added Successfully"
-        );
-
       } catch (error) {
 
-        console.log(
-          error
-        );
+        console.log(error);
 
       }
-
     };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-8">
+    <AdminLayout>
 
-      <h1 className="text-4xl font-bold">
-        Admin Panel
-      </h1>
+      <div className="flex justify-between items-center">
 
-      <div className="bg-slate-900 p-6 rounded-2xl mt-8">
+        <h1 className="text-4xl font-bold text-white">
+          Manage Questions
+        </h1>
 
-        <h2 className="text-2xl font-bold mb-6">
-          Add Question
-        </h2>
-
-        <form
-          onSubmit={
-            handleSubmit
-          }
-          className="space-y-4"
+        <Link
+          to="/admin/upload"
+          className="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl"
         >
-
-          <input
-            type="text"
-            placeholder="Question"
-            value={
-              form.question
-            }
-            onChange={(e) =>
-              setForm({
-                ...form,
-                question:
-                  e.target.value,
-              })
-            }
-            className="w-full p-4 rounded-xl bg-slate-800"
-          />
-
-          {form.options.map(
-            (
-              option,
-              index
-            ) => (
-              <input
-                key={index}
-                type="text"
-                placeholder={`Option ${
-                  index + 1
-                }`}
-                value={option}
-                onChange={(e) =>
-                  handleOptionChange(
-                    index,
-                    e.target.value
-                  )
-                }
-                className="w-full p-4 rounded-xl bg-slate-800"
-              />
-            )
-          )}
-
-          <input
-            type="text"
-            placeholder="Correct Answer"
-            value={
-              form.answer
-            }
-            onChange={(e) =>
-              setForm({
-                ...form,
-                answer:
-                  e.target.value,
-              })
-            }
-            className="w-full p-4 rounded-xl bg-slate-800"
-          />
-
-          <input
-            type="text"
-            placeholder="Subject"
-            value={
-              form.subject
-            }
-            onChange={(e) =>
-              setForm({
-                ...form,
-                subject:
-                  e.target.value,
-              })
-            }
-            className="w-full p-4 rounded-xl bg-slate-800"
-          />
-
-          <select
-            value={
-              form.difficulty
-            }
-            onChange={(e) =>
-              setForm({
-                ...form,
-                difficulty:
-                  e.target.value,
-              })
-            }
-            className="w-full p-4 rounded-xl bg-slate-800"
-          >
-
-            <option>
-              Easy
-            </option>
-
-            <option>
-              Medium
-            </option>
-
-            <option>
-              Hard
-            </option>
-
-          </select>
-
-          <button
-            type="submit"
-            className="bg-purple-600 px-6 py-3 rounded-xl"
-          >
-            Add Question
-          </button>
-
-        </form>
+          Add Question
+        </Link>
 
       </div>
 
-      <div className="mt-8 space-y-4">
+      <div className="mt-8 overflow-x-auto bg-slate-900 rounded-2xl p-6">
 
-        {questions.map(
-          (question) => (
-            <div
-              key={
-                question._id
-              }
-              className="bg-slate-900 p-6 rounded-2xl border border-slate-800"
-            >
+        <table className="w-full text-left">
 
-              <h2 className="font-bold">
-                {
-                  question.question
-                }
-              </h2>
+          <thead>
 
-              <p className="text-slate-400 mt-2">
-                Subject:
-                {" "}
-                {
-                  question.subject
-                }
-              </p>
+            <tr className="border-b border-slate-700">
 
-              <p className="text-slate-400">
-                Difficulty:
-                {" "}
-                {
-                  question.difficulty
-                }
-              </p>
+              <th className="pb-4">
+                Question
+              </th>
 
-            </div>
-          )
-        )}
+              <th className="pb-4">
+                Subject
+              </th>
+
+              <th className="pb-4">
+                Difficulty
+              </th>
+
+              <th className="pb-4">
+                Actions
+              </th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            {questions.map(
+              (question) => (
+
+                <tr
+                  key={question._id}
+                  className="border-b border-slate-800"
+                >
+
+                  <td className="py-4">
+                    {question.question}
+                  </td>
+
+                  <td className="py-4">
+                    {question.subject}
+                  </td>
+
+                  <td className="py-4">
+                    {question.difficulty}
+                  </td>
+
+                  <td className="py-4">
+
+                    <Link
+                      to={`/admin/questions/edit/${question._id}`}
+                      className="bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded-lg mr-2"
+                    >
+                      Edit
+                    </Link>
+
+                    <button
+                      className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg"
+                      onClick={() =>
+                        handleDelete(
+                          question._id
+                        )
+                      }
+                    >
+                      Delete
+                    </button>
+
+                  </td>
+
+                </tr>
+
+              )
+            )}
+
+          </tbody>
+
+        </table>
 
       </div>
 
-    </div>
+    </AdminLayout>
   );
 }
 

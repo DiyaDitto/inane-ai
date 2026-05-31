@@ -23,6 +23,7 @@ try {
     email,
     password,
   });
+  console.log("LOGIN DATA:", data);
 
   localStorage.setItem(
     "token",

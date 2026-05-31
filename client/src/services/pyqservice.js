@@ -1,22 +1,18 @@
 import axios from "axios";
 
 const API_URL =
-  "http://localhost:5000/api/questions";
+  "http://localhost:5000/api/pyqs";
 
-export const getQuestions =
+export const getPYQs =
   async () => {
-
     const response =
-      await axios.get(
-        API_URL
-      );
+      await axios.get(API_URL);
 
     return response.data;
 };
 
-export const deleteQuestion =
+export const deletePYQ =
   async (id) => {
-
     const response =
       await axios.delete(
         `${API_URL}/${id}`

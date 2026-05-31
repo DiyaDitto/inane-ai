@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import AdminLayout from "../layouts/AdminLayout";
 
 function AdminDashboard() {
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-8">
+    <AdminLayout>
 
       <h1 className="text-4xl font-bold">
         Admin Dashboard
@@ -23,7 +24,7 @@ function AdminDashboard() {
           </h2>
 
           <p className="text-slate-400 mt-2">
-            Add & Manage Questions
+            Manage Questions
           </p>
         </Link>
 
@@ -49,13 +50,13 @@ function AdminDashboard() {
           </h2>
 
           <p className="text-slate-400 mt-2">
-            Manage Articles
+            Manage Current Affairs
           </p>
         </Link>
 
       </div>
 
-    </div>
+    </AdminLayout>
   );
 }
 

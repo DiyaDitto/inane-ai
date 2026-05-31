@@ -1,20 +1,18 @@
 import axios from "axios";
 
 const API_URL =
-  "http://localhost:5000/api/questions";
+  "http://localhost:5000/api/current-affairs";
 
-export const getQuestions =
+export const getCurrentAffairs =
   async () => {
 
     const response =
-      await axios.get(
-        API_URL
-      );
+      await axios.get(API_URL);
 
     return response.data;
 };
 
-export const deleteQuestion =
+export const deleteCurrentAffair =
   async (id) => {
 
     const response =

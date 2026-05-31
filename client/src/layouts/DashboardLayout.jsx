@@ -14,7 +14,6 @@ function DashboardLayout({ children }) {
   return (
     <div className="flex min-h-screen bg-slate-950">
 
-      {/* Sidebar */}
       <aside className="w-64 bg-slate-900 border-r border-slate-800 p-6">
 
         <h1 className="text-2xl font-bold text-purple-500">
@@ -29,12 +28,46 @@ function DashboardLayout({ children }) {
           >
             Dashboard
           </Link>
+          <Link
+  to="/search"
+  className="block p-3 rounded-xl hover:bg-slate-800 text-white"
+>
+  Search
+</Link>
+
+          <Link
+            to="/subjects"
+            className="block p-3 rounded-xl hover:bg-slate-800 text-white"
+          >
+            Subjects
+          </Link>
+
+          <Link
+            to="/pyqs"
+            className="block p-3 rounded-xl hover:bg-slate-800 text-white"
+          >
+            PYQs
+          </Link>
+
+          <Link
+            to="/current-affairs"
+            className="block p-3 rounded-xl hover:bg-slate-800 text-white"
+          >
+            Current Affairs
+          </Link>
 
           <Link
             to="/mock-test"
             className="block p-3 rounded-xl hover:bg-slate-800 text-white"
           >
             Mock Tests
+          </Link>
+
+          <Link
+            to="/history"
+            className="block p-3 rounded-xl hover:bg-slate-800 text-white"
+          >
+            Attempt History
           </Link>
 
           <Link
@@ -72,9 +105,8 @@ function DashboardLayout({ children }) {
             Settings
           </Link>
 
+        
         </nav>
-
-        {/* Logout Button */}
 
         <button
           onClick={logout}
@@ -84,8 +116,6 @@ function DashboardLayout({ children }) {
         </button>
 
       </aside>
-
-      {/* Main Content */}
 
       <main className="flex-1">
         {children}
